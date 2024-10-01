@@ -45,11 +45,12 @@ export function Interview() {
             </div>
           </div>
         </div>
+        <Button>Gerar jornada</Button>
         <div className="flex flex-col px-8 my-14">
           <label className="block text-center">
             ou faça um upload do seu currículo (formato PDF)
           </label>
-          <Button>Upload PDF</Button>
+          <Button variant="secondary">Upload PDF</Button>
         </div>
       </div>
     </>
