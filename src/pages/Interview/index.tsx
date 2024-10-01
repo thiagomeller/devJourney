@@ -1,29 +1,55 @@
 import { Button } from "@/components/Button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Input } from "@/components/Input";
+import Select from "@/components/Select";
 
 export function Interview() {
   return (
     <>
-      <div className="flex flex-col bg-secondBackground items-center justify-center rounded-sm px-28 py-32 max-w-screen-sm max-h-96 gap-10">
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Theme" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="light">Light</SelectItem>
-            <SelectItem value="dark">Dark</SelectItem>
-            <SelectItem value="system">System</SelectItem>
-          </SelectContent>
-        </Select>
-        <div className="flex flex-col gap-4 px-8">
-          <Button>Entrar</Button>
-          <Button variant="secondary">Cadastrar-se</Button>
+      <div className="flex flex-col bg-secondBackground items-center justify-center rounded-sm px-8 py-8 w-1/2 h-auto gap-10">
+        <p className="text-5xl font-semibold text-center mb-16">
+          Monte sua jornada
+        </p>
+        <div className="flex flex-1 gap-28">
+          <div className="flex flex-1 flex-col gap-2">
+            <Select
+              label="Selecione o cargo desejado:"
+              options={["dev", "analista"]}
+            />
+            <Select
+              label="Selecione o cargo desejado:"
+              options={["dev", "analista"]}
+            />
+            <Select label="Tecnologia:" options={["dev", "analista"]} />
+          </div>
+          <div className="flex flex-1 h-auto flex-col gap-2 items-center justify-center">
+            <div className="flex flex-col">
+              <label className="block">Tempo para a conclusão</label>
+              <div className="flex gap-2 items-center justify-center">
+                <Input placeholder="Quantidade" />
+                <Select options={["dev", "analista"]} />
+              </div>
+            </div>
+
+            <div className="flex flex-col">
+              <label className="block">Tempo médio de estudo</label>
+              <div className="flex gap-2 items-center justify-center">
+                <Input placeholder="Quantidade" />
+                <Select options={["dev", "analista"]} />
+              </div>
+            </div>
+            <div className="p">
+              <Select
+                optionsLabel="Periodicidade"
+                options={["dev", "analista"]}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col px-8 my-14">
+          <label className="block text-center">
+            ou faça um upload do seu currículo (formato PDF)
+          </label>
+          <Button>Upload PDF</Button>
         </div>
       </div>
     </>
