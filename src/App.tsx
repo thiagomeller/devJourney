@@ -1,13 +1,15 @@
 import { ThemeProvider } from "./components/ThemeProvider";
 import { Interview } from "./pages/Interview";
 import { Login } from "./pages/Login";
+import { Roadmap } from "./pages/Roadmap";
 
 function App() {
   return (
     <ThemeProvider>
-      <div className="flex flex-1 items-center justify-center border">
+      <div className="w-full h-full">
         {/* <Login /> */}
-        <Interview />
+        {/* <Interview /> */}
+        <Roadmap />
       </div>
     </ThemeProvider>
   );

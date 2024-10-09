@@ -4,8 +4,8 @@ import Select from "@/components/Select";
 
 export function Interview() {
   return (
-    <>
-      <div className="flex flex-col bg-secondBackground items-center justify-center rounded-sm px-8 py-8 w-1/2 h-auto gap-10">
+    <div className="flex flex-1 h-full justify-center items-center">
+      <div className="flex flex-col justify-self-center bg-secondBackground items-center justify-center rounded-sm px-8 py-8 w-1/2 h-auto gap-10">
         <p className="text-5xl font-semibold text-center mb-16">
           Monte sua jornada
         </p>
@@ -53,6 +53,6 @@ export function Interview() {
           <Button variant="secondary">Upload PDF</Button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
