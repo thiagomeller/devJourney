@@ -10,9 +10,6 @@ import "E:/Facul/ProjetoIA/devJourney/src/components/RoadmapComponent/styles.css
 import { theme } from "@/styles/theme";
 
 function RoadmapComponent() {
-  const workIconStyles = { background: "#06D6A0" };
-  const schoolIconStyles = { background: "#f9c74f" };
-
   return (
     <VerticalTimeline className="">
       {timelineElements.map((element) => {
