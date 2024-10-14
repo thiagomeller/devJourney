@@ -1,4 +1,4 @@
-import timelineElements from "E:/Facul/ProjetoIA/devJourney/timelineElements.js";
+import timelineElements from "../../../timelineElements.ts";
 
 import {
   VerticalTimeline,
@@ -6,7 +6,7 @@ import {
 } from "react-vertical-timeline-component";
 
 import "react-vertical-timeline-component/style.min.css";
-import "E:/Facul/ProjetoIA/devJourney/src/components/RoadmapComponent/styles.css";
+import "./styles.css";
 import { theme } from "@/styles/theme";
 
 function RoadmapComponent() {
