@@ -1,4 +1,4 @@
-#Front End of a IA College Project 
+# Front End of a IA College Project 
 
 ## Install dependencies
 ```js
