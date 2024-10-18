@@ -15,8 +15,8 @@ h3 {
   color: #222222;
 }
 
-h5 {
-  color: #222222;
+h5, h6, a, p {
+  color: #222222 !important;
 }
 
 .vertical-timeline-element-content {

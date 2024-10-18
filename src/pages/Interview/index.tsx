@@ -1,8 +1,15 @@
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import Select from "@/components/Select";
+import { useNavigate } from 'react-router-dom';
 
 export function Interview() {
+  const navigate = useNavigate();
+  
+  const handleNavigate = () => {
+    navigate('/Roadmap'); 
+  };
+  
   return (
     <div className="flex flex-1 h-full justify-center items-center">
       <div className="flex flex-col justify-self-center bg-secondBackground items-center justify-center rounded-sm px-8 py-8 w-1/2 h-auto gap-10">
@@ -45,7 +52,7 @@ export function Interview() {
             </div>
           </div>
         </div>
-        <Button>Gerar jornada</Button>
+        <Button onClick={handleNavigate}>Gerar jornada</Button>
         <div className="flex flex-col px-8 my-14">
           <label className="block text-center">
             ou faça um upload do seu currículo (formato PDF)
