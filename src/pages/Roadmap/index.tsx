@@ -26,7 +26,7 @@ export function Roadmap() {
   }, []);
 
   return (
-    <div className="flex bg-secondBackground">
+    <div className="flex flex-1 bg-secondBackground">
       <ReadmapHistory />
       <RoadmapComponent roadmapInfo={roadmapInfo} />
     </div>

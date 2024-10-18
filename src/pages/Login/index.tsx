@@ -1,19 +1,17 @@
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom";
 
 export function Login() {
   const navigate = useNavigate();
-  
+
   const handleNavigate = () => {
-    navigate('/Interview'); 
+    navigate("/Interview");
   };
 
-
   return (
-    <>
-      <div className="flex flex-col bg-secondBackground items-center justify-center rounded-sm px-28 py-32 max-w-screen-sm max-h-96 gap-10">
+    <div className="flex flex-1 mt-48 justify-center">
+      <div className="flex flex-col flex-1 bg-secondBackground justify-center rounded-sm px-28 max-w-[700px] py-32 max-h-96 gap-10">
         {/* <img src={"src/assets/logo.png"} className="" /> */}
         <Input placeholder="Usuário" />
         <Input placeholder="Senha" type="password" />
@@ -22,8 +20,6 @@ export function Login() {
           <Button variant="secondary">Cadastrar-se</Button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
-
-
