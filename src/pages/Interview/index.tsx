@@ -1,21 +1,21 @@
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import Select from "@/components/Select";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 export function Interview() {
   const navigate = useNavigate();
-  
+
   const handleNavigate = () => {
-    navigate('/Roadmap'); 
+    navigate("/Roadmap");
   };
-  
+
   return (
     <div className="flex flex-1 h-full justify-center items-center">
       <div className="flex flex-col justify-self-center bg-secondBackground items-center justify-center rounded-sm px-8 py-8 w-1/2 h-auto gap-10">
-        <p className="text-5xl font-semibold text-center mb-16">
+        <h1 className="text-5xl font-semibold text-center mb-16 text-white">
           Monte sua jornada
-        </p>
+        </h1>
         <div className="flex flex-1 gap-28">
           <div className="flex flex-1 flex-col gap-2">
             <Select
