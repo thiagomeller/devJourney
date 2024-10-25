@@ -1,20 +1,43 @@
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
-import { useNavigate } from "react-router-dom";
+import api from "@/service/api";
+import { useEffect } from "react";
+import { Form, useNavigate } from "react-router-dom";
 
 export function Login() {
   const navigate = useNavigate();
 
-  const handleNavigate = () => {
-    navigate("/Interview");
+  useEffect(() => {
+    let token = localStorage.getItem('authTOken');
+    if (token) {
+      navigate("/Interview");
+    }
+  }, [])
+
+  const handleNavigate = async () => {
+    await api
+    .post("http://127.0.0.1:5000/v1/authenticate", {}, {
+      headers: {
+        Authorization: "Basic " + window.btoa("juliano2:123456")
+      }
+    })
+    .then((res) => {
+      if (res.data.token) {
+        localStorage.setItem('authTOken', res.data.token);
+        navigate("/Interview");
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   };
 
   return (
     <div className="flex flex-1 mt-48 justify-center">
       <div className="flex flex-col flex-1 bg-secondBackground justify-center rounded-sm px-28 max-w-[700px] py-32 max-h-96 gap-10">
         <img src={"src/assets/logo.svg"} className="" />
-        <Input placeholder="Usuário" />
-        <Input placeholder="Senha" type="password" />
+        <Input name="usuario" placeholder="Usuário" />
+        <Input name="password" placeholder="Senha" type="password" />
         <div className="flex flex-col gap-4 px-8">
           <Button onClick={handleNavigate}>Entrar</Button>
           <Button variant="secondary">Cadastrar-se</Button>
