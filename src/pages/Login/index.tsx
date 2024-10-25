@@ -12,7 +12,7 @@ export function Login() {
   return (
     <div className="flex flex-1 mt-48 justify-center">
       <div className="flex flex-col flex-1 bg-secondBackground justify-center rounded-sm px-28 max-w-[700px] py-32 max-h-96 gap-10">
-        {/* <img src={"src/assets/logo.png"} className="" /> */}
+        <img src={"src/assets/logo.svg"} className="" />
         <Input placeholder="Usuário" />
         <Input placeholder="Senha" type="password" />
         <div className="flex flex-col gap-4 px-8">
