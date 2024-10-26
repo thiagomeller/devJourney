@@ -1,7 +1,9 @@
 import axios from "axios";
 
+export const baseURL = process.env.URL_BASE
+
 const api = axios.create({
-    baseURL: process.env.REACT_APP_URL_BASE,
+    baseURL: baseURL,
     headers: {
         "Access-Control-Allow-Origin": "*",
         Accept: "*/*",

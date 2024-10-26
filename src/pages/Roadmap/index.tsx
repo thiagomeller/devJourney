@@ -1,7 +1,7 @@
 import { Etapa } from "@/@types/types";
 import RoadmapComponent from "@/components/RoadmapComponent";
 import ReadmapHistory from "@/components/RoadmapHistory";
-import api from "@/service/api";
+import api, { baseURL } from "@/service/api";
 import { useEffect, useState } from "react";
 
 export function Roadmap() {
@@ -11,7 +11,7 @@ export function Roadmap() {
 
   const handleRoadmapInfo = async () => {
     await api
-      .post("http://127.0.0.1:5000/v1/chat_chumbado", {})
+      .post(`http://10.14.0.14:5000/v1/chat_chumbado`, {})
       .then((res) => {
         setRoadmapInfo(res.data.Etapas);
         console.log(res.data.Etapas);
