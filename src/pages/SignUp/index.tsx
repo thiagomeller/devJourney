@@ -32,54 +32,57 @@ export function SignUp() {
   };
 
   return (
-    <div className="flex flex-1 justify-center self-center">
-      <div className="flex flex-col bg-secondBackground justify-center items-center rounded-sm px-28 py-32 gap-10">
-        <form onSubmit={formik.handleSubmit}>
-          <div className="flex flex-col gap-10 min-w-96">
-            <img src={"src/assets/logo.svg"} width={400} />
-
-            <Input
-              id="email"
-              name="email"
-              placeholder="Email"
-              type="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            <Input
-              id="username"
-              name="username"
-              placeholder="Username"
-              type="text"
-              value={formik.values.username}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            <Input
-              id="name"
-              name="name"
-              placeholder="Nome Completo"
-              type="text"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            <Input
-              id="password"
-              name="password"
-              placeholder="Senha"
-              type="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            <div className="flex flex-col gap-4 px-8 min-w-96">
-              <Button type="submit">Cadastrar</Button>
-              <Button variant="secondary" onClick={() => navigate(-1)}>
-                Voltar
-              </Button>
-            </div>
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="flex flex-col bg-secondBackground justify-center items-center rounded-sm px-10 py-12 max-w-md w-full gap-8">
+        <form onSubmit={formik.handleSubmit} className="flex flex-col gap-6 w-full items-center">
+          <img src={"src/assets/logo.svg"} alt="Logo" className="w-40" />
+      
+          <Input
+            id="email"
+            name="email"
+            placeholder="Email"
+            type="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className="w-full"
+          />
+          <Input
+            id="username"
+            name="username"
+            placeholder="Username"
+            type="text"
+            value={formik.values.username}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className="w-full"
+          />
+          <Input
+            id="name"
+            name="name"
+            placeholder="Nome Completo"
+            type="text"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className="w-full"
+          />
+          <Input
+            id="password"
+            name="password"
+            placeholder="Senha"
+            type="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className="w-full"
+          />
+    
+          <div className="flex flex-col gap-4 w-full mt-6">
+            <Button type="submit">Cadastrar</Button>
+            <Button variant="secondary" onClick={() => navigate(-1)}>
+              Voltar
+            </Button>
           </div>
         </form>
       </div>

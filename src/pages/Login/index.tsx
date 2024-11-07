@@ -33,16 +33,19 @@ export function Login() {
   };
 
   return (
-    <div className="flex flex-1 mt-48 justify-center">
-      <div className="flex flex-col flex-1 bg-secondBackground justify-center rounded-sm px-28 max-w-[700px] py-32 max-h-96 gap-10">
-        <img src={"src/assets/logo.svg"} className="" />
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="flex flex-col bg-secondBackground rounded-sm p-10 max-w-md w-full gap-6">
+        <img src={"src/assets/logo.svg"} alt="Logo" className="self-center w-40" />
+        
         <Input name="usuario" placeholder="Usuário" />
         <Input name="password" placeholder="Senha" type="password" />
-        <div className="flex flex-col gap-4 px-8">
+        
+        <div className="flex flex-col gap-4 mt-6 w-full">
           <Button onClick={handleNavigate}>Entrar</Button>
           <Button variant="secondary">Cadastrar-se</Button>
         </div>
       </div>
     </div>
+
   );
 }
