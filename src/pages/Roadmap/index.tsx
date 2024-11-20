@@ -6,6 +6,7 @@ import Add from "../../assets/add.svg";
 import api, { apiAuth } from "@/service/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import LogOut from "@/components/LogOut";
 
 export function Roadmap() {
   const navigation = useNavigate();
@@ -53,6 +54,7 @@ export function Roadmap() {
           </div>
         </div>
       </nav>
+      <LogOut />
       <RoadmapComponent roadmapInfo={roadmapInfo} />
     </div>
   );
