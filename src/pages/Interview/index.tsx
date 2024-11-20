@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import LogOut from "@/components/LogOut";
@@ -8,6 +9,9 @@ import { useNavigate } from "react-router-dom";
 
 export function Interview() {
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+
   const cargos = ["Desenvolvedor", "Analista de Sistemas", "Testador"];
   const techs = ["Python", "Java", "Javascript"];
   const studyMethods = ["Vídeos", "Livros", "Vídeos e livros"];
@@ -42,6 +46,28 @@ export function Interview() {
       .catch((error) => {
         alert(error);
       });
+  };
+
+  const handleUploadPDF = async () => {
+    if (!file) {
+      alert("Selecione um arquivo para enviar.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("pdf", file);
+
+    try {
+      const response = await apiAuth.post("v1/upload_pdf", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      alert(response.data.message);
+      setShowModal(false); // Fecha o modal após o envio
+    } catch (error) {
+      alert("Erro ao enviar o arquivo.");
+    }
   };
 
   return (
@@ -133,9 +159,32 @@ export function Interview() {
           <label className="block text-center">
             ou faça um upload do seu currículo (formato PDF)
           </label>
-          <Button variant="secondary">Upload PDF</Button>
+          <Button variant="secondary" onClick={() => setShowModal(true)}>
+            Upload PDF
+          </Button>
         </div>
       </div>
+
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white rounded-lg p-6 w-[400px]">
+            <h2 className="text-2xl font-semibold mb-4">Upload de PDF</h2>
+            <input
+              type="file"
+              accept=".pdf"
+              onChange={(e) => setFile(e.target.files?.[0] || null)}
+              className="mb-4"
+            />
+            <div className="flex justify-end gap-4">
+              <Button variant="secondary" onClick={() => setShowModal(false)}>
+                Cancelar
+              </Button>
+              <Button onClick={handleUploadPDF}>Enviar</Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
