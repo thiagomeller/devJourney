@@ -18,25 +18,25 @@ function RoadmapComponent({ roadmapInfo }: RoadmapComponentProps) {
       {roadmapInfo.map((element) => {
         return (
           <VerticalTimelineElement
-            key={element.Etapa}
+            key={element.etapa}
             //date={element.date}
             iconStyle={{ backgroundColor: theme.color.primary }}
             className=""
           >
-            <h3 className="title">{element.Etapa}</h3>
-            {element.Recursos.map((item) => (
-              <div key={item.Título} className="flex flex-col gap-4">
+            <h3 className="title">{element.etapa}</h3>
+            {element.recursos.map((item, index) => (
+              <div key={index} className="flex flex-col gap-4">
                 <div>
-                  <h6 className="inline italic">{item.Tipo}: </h6>
-                  <a href={item.Link}>{item.Título}</a>
-                  <a href={item.Link}>{item.Nome}</a>
+                  <h6 className="inline italic">{item.tipo}: </h6>
+                  <a href={item.link}>{item.titulo}</a>
+                  <a href={item.link}>{item.nome}</a>
                 </div>
               </div>
             ))}
             <p id="description">
-              Tempo de estudo semanal: {element.TempoEstudoSemanal}
+              Tempo de estudo semanal: {element.tempoEstudoSemanal}
             </p>
-            <p id="description">Duração total: {element.DuracaoTotal}</p>
+            <p id="description">Duração total: {element.duracaoTotal}</p>
           </VerticalTimelineElement>
         );
       })}

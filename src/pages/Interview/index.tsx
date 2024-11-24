@@ -35,12 +35,11 @@ export function Interview() {
   });
 
   const handleCreateRoadmap = async (values: typeof formik.initialValues) => {
-    const chatToken = import.meta.env.VITE_CHAT_TOKEN;
+    const chatToken = localStorage.getItem("authTOken");
 
     await apiAuth
       .post(`v1/chat?token=${chatToken}`, values)
-      .then((res) => {
-        alert(res.data.message);
+      .then(() => {
         navigate("/Roadmap");
       })
       .catch((error) => {
@@ -65,7 +64,7 @@ export function Interview() {
       });
       alert(response.data.message);
       setShowModal(false); // Fecha o modal após o envio
-    } catch (error) {
+    } catch {
       alert("Erro ao enviar o arquivo.");
     }
   };

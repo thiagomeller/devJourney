@@ -1,13 +1,13 @@
 export interface Etapa {
-  Etapa: string;
-  Recursos: Recurso[];
-  TempoEstudoSemanal: string;
-  DuracaoTotal: string;
+  etapa: string;
+  recursos: Recurso[];
+  tempoEstudoSemanal: string;
+  duracaoTotal: string;
 }
 
 export interface Recurso {
-  Tipo: string;
-  Título?: string;
-  Link: string;
-  Nome?: string;
+  tipo: string;
+  titulo?: string;
+  link: string;
+  nome?: string;
 }

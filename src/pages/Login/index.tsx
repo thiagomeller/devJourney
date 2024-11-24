@@ -1,11 +1,14 @@
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
+import { Toaster } from "@/components/Toast/toaster";
+import { useToast } from "@/hooks/use-toast";
 import api from "@/service/api";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function Login() {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const user = useRef<string>("");
   const password = useRef<string>("");
 
@@ -34,8 +37,12 @@ export function Login() {
           navigate("/Interview");
         }
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
+        toast({
+          variant: "destructive",
+          title: "Erro ao realizar login",
+          description: "Login ou senha incorretos",
+        });
       });
   };
 
@@ -67,6 +74,7 @@ export function Login() {
           </Button>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }

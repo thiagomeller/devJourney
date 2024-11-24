@@ -9,30 +9,40 @@ import { useNavigate } from "react-router-dom";
 import LogOut from "@/components/LogOut";
 
 export function Roadmap() {
-  const navigation = useNavigate();
-  // const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
 
   const [roadmapInfo, setRoadmapInfo] = useState<Etapa[]>([]);
 
   const handleRoadmapInfo = async () => {
+    setIsLoading(true);
+    const chatToken = localStorage.getItem("authTOken");
+
     await api
-      .post(`/v1/chat_chumbado`, {})
+      .post(`/v1/chat_chumbado?token=${chatToken}`, {})
       .then((res) => {
-        setRoadmapInfo(res.data.Etapas);
-        console.log(res.data.Etapas);
+        setRoadmapInfo(res.data.etapas);
       })
       .catch((error) => {
-        console.error(error);
-      });
+        console.log(error.message);
+      })
+      .finally(() => setIsLoading(false));
   };
 
-  const handleGetRoadmapHistory = async (userId: string) => {
-    await apiAuth.get(`v1/history/${userId}/user`).then((res) => {});
+  const handleGetRoadmapHistory = async () => {
+    const chatToken = localStorage.getItem("authTOken");
+    await apiAuth
+      .get(`v1/history?token=${chatToken}`)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err.message));
   };
 
   useEffect(() => {
     handleRoadmapInfo();
-  }, []);
+    handleGetRoadmapHistory();
+  }, [navigate]);
 
   return (
     <div className="flex flex-1 bg-background">
@@ -42,7 +52,7 @@ export function Roadmap() {
           <div className="mt-5 ">
             <Button
               variant={"secondary"}
-              onClick={() => navigation("/Interview")}
+              onClick={() => navigate("/Interview")}
             >
               <img src={Add} />
             </Button>
@@ -55,7 +65,7 @@ export function Roadmap() {
         </div>
       </nav>
       <LogOut />
-      <RoadmapComponent roadmapInfo={roadmapInfo} />
+      {!isLoading && <RoadmapComponent roadmapInfo={roadmapInfo} />}
     </div>
   );
 }

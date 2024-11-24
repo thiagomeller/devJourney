@@ -1,11 +1,13 @@
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
+import { useToast } from "@/hooks/use-toast";
 import api from "@/service/api";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 
 export function SignUp() {
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const formik = useFormik({
     initialValues: {
@@ -22,21 +24,32 @@ export function SignUp() {
   const handleCreateUser = async (values: typeof formik.initialValues) => {
     await api
       .post("/v1/users", values)
-      .then((res) => {
-        alert(res.data.message);
+      .then(() => {
+        toast({
+          title: "Conta criada com sucesso!",
+          description: "Pode logar na sua conta",
+        });
+
         navigate(-1);
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
+        toast({
+          variant: "destructive",
+          title: "Erro ao criar conta",
+          description: "Não foi possível criar a conta, tente novamente",
+        });
       });
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="flex flex-col bg-secondBackground justify-center items-center rounded-sm px-10 py-12 max-w-md w-full gap-8">
-        <form onSubmit={formik.handleSubmit} className="flex flex-col gap-6 w-full items-center">
+        <form
+          onSubmit={formik.handleSubmit}
+          className="flex flex-col gap-6 w-full items-center"
+        >
           <img src={"src/assets/logo.svg"} alt="Logo" className="w-40" />
-      
+
           <Input
             id="email"
             name="email"
@@ -77,7 +90,7 @@ export function SignUp() {
             onBlur={formik.handleBlur}
             className="w-full"
           />
-    
+
           <div className="flex flex-col gap-4 w-full mt-6">
             <Button type="submit">Cadastrar</Button>
             <Button variant="secondary" onClick={() => navigate(-1)}>
