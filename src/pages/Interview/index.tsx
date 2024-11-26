@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import LogOut from "@/components/LogOut";
+import { Combobox } from "@/components/Combobox";
 import Select from "@/components/Select";
 import { apiAuth } from "@/service/api";
 import { useFormik } from "formik";
@@ -10,10 +11,12 @@ import { useToast } from "@/hooks/use-toast";
 
 export function Interview() {
   const navigate = useNavigate();
+
   const { toast } = useToast();
 
   const [showModal, setShowModal] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const cargos = ["Desenvolvedor", "Analista de Sistemas", "Testador"];
   const techs = ["Python", "Java", "Javascript"];
@@ -39,10 +42,20 @@ export function Interview() {
 
   const handleCreateRoadmap = async (values: typeof formik.initialValues) => {
     const chatToken = localStorage.getItem("authTOken");
+    const formData = new FormData();
+
+    Object.keys(values).forEach((key) => {
+      formData.append(key, values[key as keyof typeof formik.initialValues] || "");
+    });
+
+    if (file) {
+      formData.append("pdf", file);
+    }
 
     await apiAuth
       .post(`v1/chat?token=${chatToken}`, values)
-      .then(() => {
+      .then((res) => {
+        alert(res.data.message);
         navigate("/Roadmap");
       })
       .catch(() => {
@@ -54,30 +67,27 @@ export function Interview() {
       });
   };
 
-  const handleUploadPDF = async () => {
-    if (!file) {
-      alert("Selecione um arquivo para enviar.");
-      return;
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const droppedFile = e.dataTransfer.files[0];
+    if (droppedFile && droppedFile.type === "application/pdf") {
+      setFile(droppedFile);
+    } else {
+      alert("Por favor, envie um arquivo PDF.");
     }
+  };
 
-    const formData = new FormData();
-    formData.append("pdf", file);
-
-    try {
-      const response = await apiAuth.post("v1/upload_pdf", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      alert(response.data.message);
-      setShowModal(false); // Fecha o modal após o envio
-    } catch {
-      toast({
-        variant: "destructive",
-        title: "Erro ao enviar o arquivo",
-        description: "Espere um pouco e tente novamente",
-      });
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile && selectedFile.type === "application/pdf") {
+      setFile(selectedFile);
+    } else {
+      alert("Por favor, envie um arquivo PDF.");
     }
+  };
+
+  const handleAreaClick = () => {
+    fileInputRef.current?.click();
   };
 
   return (
@@ -90,26 +100,29 @@ export function Interview() {
         <div className="flex flex-1 w-full px-6">
           <form onSubmit={formik.handleSubmit} className="w-full">
             <div className="flex flex-col gap-6 mb-6">
-              <Select
+              <Combobox
                 id="cargo"
                 name="cargo"
                 label="Selecione o cargo desejado:"
                 options={cargos}
-                onChange={formik.handleChange}
+                value={formik.values.cargo}
+                onChange={(value) => formik.setFieldValue("cargo", value)}
               />
-              <Select
+              <Combobox
                 id="tecnologia"
                 name="tecnologia"
                 label="Selecione a tecnologia desejada:"
                 options={techs}
-                onChange={formik.handleChange}
+                value={formik.values.tecnologia}
+                onChange={(value) => formik.setFieldValue("tecnologia", value)}
               />
-              <Select
+              <Combobox
                 id="formatoEstudos"
                 name="formatoEstudos"
                 label="Tipo de estudo:"
                 options={studyMethods}
-                onChange={formik.handleChange}
+                value={formik.values.formatoEstudos}
+                onChange={(value) => formik.setFieldValue("formatoEstudos", value)}
               />
             </div>
 
@@ -159,42 +172,32 @@ export function Interview() {
               </div>
             </div>
 
+            <div className="flex flex-col items-center px-6 my-10">
+              <div
+                className="border-2 border-dashed rounded-lg w-full h-32 flex items-center justify-center cursor-pointer"
+                onDrop={handleDrop}
+                onClick={handleAreaClick}
+              >
+                {file ? (
+                  <span className="text-white-400">{file.name}</span>
+                ) : (
+                  "Clique ou arraste um arquivo PDF do seu currículo aqui"
+                )}
+              </div>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".pdf"
+                className="hidden"
+                onChange={handleFileInputChange}
+              />
+            </div>
             <div className="flex justify-center items-center">
               <Button type="submit">Gerar jornada</Button>
             </div>
           </form>
         </div>
-
-        <div className="flex flex-col items-center px-6 my-10">
-          <label className="block text-center">
-            ou faça um upload do seu currículo (formato PDF)
-          </label>
-          <Button variant="secondary" onClick={() => setShowModal(true)}>
-            Upload PDF
-          </Button>
-        </div>
       </div>
-
-      {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white rounded-lg p-6 w-[400px]">
-            <h2 className="text-2xl font-semibold mb-4">Upload de PDF</h2>
-            <input
-              type="file"
-              accept=".pdf"
-              onChange={(e) => setFile(e.target.files?.[0] || null)}
-              className="mb-4"
-            />
-            <div className="flex justify-end gap-4">
-              <Button variant="secondary" onClick={() => setShowModal(false)}>
-                Cancelar
-              </Button>
-              <Button onClick={handleUploadPDF}>Enviar</Button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
