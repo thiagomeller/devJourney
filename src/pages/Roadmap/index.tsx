@@ -1,4 +1,4 @@
-import { Etapa } from "@/@types/types";
+import { Etapa, RoadmapHistory } from "@/@types/types";
 import { Button } from "@/components/Button";
 import RoadmapComponent from "@/components/RoadmapComponent";
 // import ReadmapHistory from "@/components/RoadmapHistory";
@@ -13,6 +13,8 @@ export function Roadmap() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [roadmapInfo, setRoadmapInfo] = useState<Etapa[]>([]);
+
+  const [roadmapHistory, setRoadmapHistory] = useState<RoadmapHistory[]>([]);
 
   const handleRoadmapInfo = async () => {
     setIsLoading(true);
@@ -32,9 +34,9 @@ export function Roadmap() {
   const handleGetRoadmapHistory = async () => {
     const chatToken = localStorage.getItem("authTOken");
     await apiAuth
-      .get(`v1/history?token=${chatToken}`)
+      .get(`/v1/history?token=${chatToken}`)
       .then((res) => {
-        console.log(res.data);
+        setRoadmapHistory(res.data);
       })
       .catch((err) => console.log(err.message));
   };
@@ -57,11 +59,23 @@ export function Roadmap() {
               <img src={Add} />
             </Button>
           </div>
-          <div className="flex flex-col flex-1 justify-center">
-            <Button variant={"ghost"}>Lorem</Button>
-            <Button variant={"ghost"}>Lorem</Button>
-            <Button variant={"ghost"}>Lorem</Button>
-          </div>
+          {roadmapHistory.length > 0 && (
+            <div className="flex flex-col flex-1 justify-center">
+              {roadmapHistory.map((roadmap) => {
+                const descriptionJson = JSON.parse(roadmap.description)
+                  .etapas as Etapa[];
+
+                return (
+                  <Button
+                    variant={"ghost"}
+                    onClick={() => setRoadmapInfo(descriptionJson)}
+                  >
+                    {roadmap.title}
+                  </Button>
+                );
+              })}
+            </div>
+          )}
         </div>
       </nav>
       <LogOut />
