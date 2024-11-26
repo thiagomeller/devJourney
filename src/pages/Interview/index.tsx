@@ -6,9 +6,12 @@ import Select from "@/components/Select";
 import { apiAuth } from "@/service/api";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 export function Interview() {
   const navigate = useNavigate();
+  const { toast } = useToast();
+
   const [showModal, setShowModal] = useState(false);
   const [file, setFile] = useState<File | null>(null);
 
@@ -42,8 +45,12 @@ export function Interview() {
       .then(() => {
         navigate("/Roadmap");
       })
-      .catch((error) => {
-        alert(error);
+      .catch(() => {
+        toast({
+          variant: "destructive",
+          title: "Erro ao criar roadmap",
+          description: "Espere um pouco e tente novamente",
+        });
       });
   };
 
@@ -65,7 +72,11 @@ export function Interview() {
       alert(response.data.message);
       setShowModal(false); // Fecha o modal após o envio
     } catch {
-      alert("Erro ao enviar o arquivo.");
+      toast({
+        variant: "destructive",
+        title: "Erro ao enviar o arquivo",
+        description: "Espere um pouco e tente novamente",
+      });
     }
   };
 
