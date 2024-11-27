@@ -31,9 +31,9 @@ export const Combobox: React.FC<ComboboxProps> = ({
   };
 
   const handleSelect = (selected: string) => {
-    setInputValue(selected);
+    setInputValue(selected); // Atualiza o valor como se fosse digitado
     onChange(selected);
-    setIsOpen(false);
+    setTimeout(() => setIsOpen(false), 200); // Fecha o dropdown após a seleção
   };
 
   return (
