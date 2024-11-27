@@ -34,7 +34,7 @@ export function Login() {
       .then((res) => {
         if (res.data.token) {
           localStorage.setItem("authTOken", res.data.token);
-          navigate("/Interview");
+          navigate("/Roadmap");
         }
       })
       .catch(() => {

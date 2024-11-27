@@ -14,7 +14,7 @@ export function Interview() {
 
   const { toast } = useToast();
 
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -45,7 +45,10 @@ export function Interview() {
     const formData = new FormData();
 
     Object.keys(values).forEach((key) => {
-      formData.append(key, values[key as keyof typeof formik.initialValues] || "");
+      formData.append(
+        key,
+        values[key as keyof typeof formik.initialValues] || ""
+      );
     });
 
     if (file) {
@@ -122,7 +125,9 @@ export function Interview() {
                 label="Tipo de estudo:"
                 options={studyMethods}
                 value={formik.values.formatoEstudos}
-                onChange={(value) => formik.setFieldValue("formatoEstudos", value)}
+                onChange={(value) =>
+                  formik.setFieldValue("formatoEstudos", value)
+                }
               />
             </div>
 

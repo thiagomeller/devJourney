@@ -27,13 +27,13 @@ export const Combobox: React.FC<ComboboxProps> = ({
 
   const handleInputChange = (newValue: string) => {
     setInputValue(newValue);
-    onChange(newValue); 
+    onChange(newValue);
   };
 
   const handleSelect = (selected: string) => {
     setInputValue(selected);
     onChange(selected);
-    setIsOpen(false); 
+    setIsOpen(false);
   };
 
   return (
@@ -51,14 +51,14 @@ export const Combobox: React.FC<ComboboxProps> = ({
         name={name}
         value={inputValue}
         onChange={(e) => handleInputChange(e.target.value)}
-        onFocus={() => setIsOpen(true)} 
-        onBlur={() => setTimeout(() => setIsOpen(false), 200)} 
+        onFocus={() => setIsOpen(true)}
+        onBlur={() => setTimeout(() => setIsOpen(false), 200)}
         className={clsx(
-          "block w-full px-4 py-2 text-sm border rounded-md shadow-sm",
-          "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
-          "dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600",
+          "block w-full px-4 py-2 h-12 text-sm border rounded-md shadow-sm",
+          "focus:outline-none focus:ring-2 focus:ring-white focus:border-white",
+          "dark:bg-select dark:text-gray-200",
           "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200",
-          "focus:ring-blue-500 focus:border-blue-500"
+          "focus:ring-white focus:border-white"
         )}
         placeholder="Digite ou selecione..."
       />
@@ -66,7 +66,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
         <ul
           className={clsx(
             "absolute z-10 bg-white border rounded-md shadow-md w-full max-h-48 overflow-auto mt-1",
-            "dark:bg-gray-700 dark:border-gray-600"
+            "dark:bg-select dark:border-gray-900"
           )}
         >
           {filteredOptions.map((option, index) => (
