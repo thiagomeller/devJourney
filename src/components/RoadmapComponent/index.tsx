@@ -13,8 +13,10 @@ interface RoadmapComponentProps {
 }
 
 function RoadmapComponent({ roadmapInfo }: RoadmapComponentProps) {
+  console.log("roadmapInfo", roadmapInfo);
+
   return (
-    <VerticalTimeline className="flex flex-col h-full">
+    <VerticalTimeline className="flex flex-col h-full px-24 min-[1400px]:px-0">
       {roadmapInfo.map((element) => {
         return (
           <VerticalTimelineElement
@@ -24,15 +26,17 @@ function RoadmapComponent({ roadmapInfo }: RoadmapComponentProps) {
             className=""
           >
             <h3 className="title">{element.etapa}</h3>
-            {element.recursos.map((item, index) => (
-              <div key={index} className="flex flex-col gap-4">
-                <div>
-                  <h6 className="inline italic">{item.tipo}: </h6>
-                  <a href={item.link}>{item.titulo}</a>
-                  <a href={item.link}>{item.nome}</a>
+            {element.recursos &&
+              element.recursos.length > 0 &&
+              element.recursos.map((item, index) => (
+                <div key={index} className="flex flex-col gap-4">
+                  <div>
+                    <h6 className="inline italic">{item.tipo}: </h6>
+                    <a href={item.link}>{item.titulo}</a>
+                    <a href={item.link}>{item.nome}</a>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
             <p id="description">
               Tempo de estudo semanal: {element.tempoEstudoSemanal}
             </p>

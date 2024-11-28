@@ -41,7 +41,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
       {label && (
         <label
           htmlFor={id}
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          className="block text-sm font-medium text-gray-300 mb-1"
         >
           {label}
         </label>
@@ -57,7 +57,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
           "block w-full px-4 py-2 h-12 text-sm border rounded-md shadow-sm",
           "focus:outline-none focus:ring-2 focus:ring-white focus:border-white",
           "dark:bg-select dark:text-gray-200",
-          "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200",
+          "bg-select text-gray-200",
           "focus:ring-white focus:border-white"
         )}
         placeholder="Digite ou selecione..."
@@ -65,7 +65,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
       {isOpen && filteredOptions.length > 0 && (
         <ul
           className={clsx(
-            "absolute z-10 bg-white border rounded-md shadow-md w-full max-h-48 overflow-auto mt-1",
+            "absolute z-10 bg-select border rounded-md shadow-md w-full max-h-48 overflow-auto mt-1",
             "dark:bg-select dark:border-gray-900"
           )}
         >
@@ -74,8 +74,8 @@ export const Combobox: React.FC<ComboboxProps> = ({
               key={index}
               onClick={() => handleSelect(option)}
               className={clsx(
-                "px-4 py-2 cursor-pointer text-sm hover:bg-gray-100",
-                "dark:hover:bg-gray-600 dark:text-gray-300"
+                "px-4 py-2 cursor-pointer text-sm hover:bg-gray-600",
+                "dark:hover:bg-gray-600 text-gray-300"
               )}
             >
               {option}

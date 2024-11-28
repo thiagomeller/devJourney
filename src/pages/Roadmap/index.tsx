@@ -37,7 +37,6 @@ export function Roadmap() {
       .get(`/v1/history?token=${chatToken}`)
       .then((res) => {
         setRoadmapHistory(res.data.data);
-        console.log(res.data.data);
       })
       .catch((err) => console.log(err.message));
   };
@@ -50,7 +49,7 @@ export function Roadmap() {
   return (
     <div className="flex flex-1 bg-background">
       {/* <ReadmapHistory /> */}
-      <nav className="flex h-full p-2 bg-secondBackground fixed">
+      <nav className="flex h-full p-2 bg-secondBackground fixed z-10 min-[1370px]:flex">
         <div className="flex flex-col gap-2 items-center">
           <div className="mt-5 ">
             <Button
@@ -58,21 +57,28 @@ export function Roadmap() {
               onClick={() => navigate("/Interview")}
             >
               <img src={Add} />
+              <p className="hidden !text-white mr-2 min-[1600px]:flex">
+                Gerar novo
+              </p>
             </Button>
           </div>
           {roadmapHistory && roadmapHistory.length > 0 && (
-            <div className="flex flex-col flex-1 justify-center">
-              {roadmapHistory.map((roadmap) => {
-                console.log(roadmap.description.replace(/&quot;/gi, '"'));
-
-                const descriptionJson = JSON.parse(roadmap.description);
+            <div className="flex flex-col flex-1 justify-center max-w-[80px] min-[1600px]:max-w-[224px]">
+              {roadmapHistory.map((roadmap, index) => {
+                const descriptionJson = JSON.parse(
+                  roadmap.description.replace(/'/g, '"')
+                );
 
                 return (
                   <Button
+                    key={index}
                     variant={"ghost"}
-                    onClick={() => setRoadmapInfo(descriptionJson)}
+                    type="button"
+                    onClick={() => setRoadmapInfo(descriptionJson.etapas)}
                   >
-                    {roadmap.title}
+                    <div className="inline-block overflow-hidden overflow-ellipsis">
+                      {roadmap.title}
+                    </div>
                   </Button>
                 );
               })}
