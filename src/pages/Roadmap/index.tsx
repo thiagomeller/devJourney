@@ -36,7 +36,8 @@ export function Roadmap() {
     await api
       .get(`/v1/history?token=${chatToken}`)
       .then((res) => {
-        setRoadmapHistory(res.data);
+        setRoadmapHistory(res.data.data);
+        console.log(res.data.data);
       })
       .catch((err) => console.log(err.message));
   };
@@ -59,11 +60,12 @@ export function Roadmap() {
               <img src={Add} />
             </Button>
           </div>
-          {roadmapHistory.length > 0 && (
+          {roadmapHistory && roadmapHistory.length > 0 && (
             <div className="flex flex-col flex-1 justify-center">
               {roadmapHistory.map((roadmap) => {
-                const descriptionJson = JSON.parse(roadmap.description)
-                  .etapas as Etapa[];
+                console.log(roadmap.description.replace(/&quot;/gi, '"'));
+
+                const descriptionJson = JSON.parse(roadmap.description);
 
                 return (
                   <Button
