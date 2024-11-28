@@ -57,8 +57,7 @@ export function Interview() {
 
     await apiAuth
       .post(`v1/chat?token=${chatToken}`, values)
-      .then((res) => {
-        alert(res.data.message);
+      .then(() => {
         navigate("/Roadmap");
       })
       .catch(() => {
