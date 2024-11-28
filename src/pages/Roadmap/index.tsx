@@ -41,6 +41,20 @@ export function Roadmap() {
       .catch((err) => console.log(err.message));
   };
 
+  const updateRoadmap = async (id: number) => {
+    setIsLoading(true);
+
+    await api
+      .get(`/v1/history/${id}`, {})
+      .then((res) => {
+        setRoadmapInfo(res.data.etapas);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      })
+      .finally(() => setIsLoading(false));
+  }
+
   useEffect(() => {
     handleRoadmapInfo();
     handleGetRoadmapHistory();
@@ -65,16 +79,13 @@ export function Roadmap() {
           {roadmapHistory && roadmapHistory.length > 0 && (
             <div className="flex flex-col flex-1 justify-center max-w-[80px] min-[1600px]:max-w-[224px]">
               {roadmapHistory.map((roadmap, index) => {
-                const descriptionJson = JSON.parse(
-                  roadmap.description.replace(/'/g, '"')
-                );
-
                 return (
                   <Button
                     key={index}
                     variant={"ghost"}
                     type="button"
-                    onClick={() => setRoadmapInfo(descriptionJson.etapas)}
+                    onClick={() => updateRoadmap(roadmap.id)}
+                    // setRoadmapInfo(roadmap.id)
                   >
                     <div className="inline-block overflow-hidden overflow-ellipsis">
                       {roadmap.title}
