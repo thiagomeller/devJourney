@@ -13,8 +13,6 @@ interface RoadmapComponentProps {
 }
 
 function RoadmapComponent({ roadmapInfo }: RoadmapComponentProps) {
-  console.log("roadmapInfo", roadmapInfo);
-
   return (
     <VerticalTimeline className="flex flex-col h-full px-24 min-[1400px]:px-0">
       {roadmapInfo.map((element) => {
