@@ -29,13 +29,16 @@ export function SignUp() {
     await api
       .post("/v1/users", values)
       .then((res: any) => {
+        console.log(res);
         if (!res.success) {
           toast({
             variant: "destructive",
             title: "Erro ao criar conta",
             description: res.message,
           });
-        } else {
+        } 
+        
+        if (res.status === 201) {
           toast({
             title: "Conta criada com sucesso!",
             description: "Pode logar na sua conta",
@@ -44,7 +47,8 @@ export function SignUp() {
           navigate(-1);
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err, "err");
         toast({
           variant: "destructive",
           title: "Erro ao criar conta",
