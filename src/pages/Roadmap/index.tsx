@@ -9,6 +9,12 @@ import { useNavigate } from "react-router-dom";
 import LogOut from "@/components/LogOut";
 
 export function Roadmap() {
+  const configAxiosRequest = {
+    headers: {
+      Authorization: localStorage.getItem("authTOken")
+    },
+  };
+
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -18,10 +24,9 @@ export function Roadmap() {
 
   const handleRoadmapInfo = async () => {
     setIsLoading(true);
-    const chatToken = localStorage.getItem("authTOken");
 
     await api
-      .post(`/v1/chat_chumbado?token=${chatToken}`, {})
+      .post(`/v1/chat_chumbado`, {}, configAxiosRequest)
       .then((res) => {
         setRoadmapInfo(res.data.etapas);
       })
@@ -32,9 +37,8 @@ export function Roadmap() {
   };
 
   const handleGetRoadmapHistory = async () => {
-    const chatToken = localStorage.getItem("authTOken");
     await api
-      .get(`/v1/history?token=${chatToken}`)
+      .get(`/v1/history`, configAxiosRequest)
       .then((res) => {
         setRoadmapHistory(res.data.data);
       })

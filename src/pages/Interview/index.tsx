@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import LogOut from "@/components/LogOut";
@@ -8,12 +8,19 @@ import { apiAuth } from "@/service/api";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import Loading from "@/components/Loading/Loading";
 
 export function Interview() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const { toast } = useToast();
 
+  const configAxiosRequest = {
+    headers: {
+      Authorization: localStorage.getItem("authTOken")
+    },
+  };
   // const [showModal, setShowModal] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -35,13 +42,12 @@ export function Interview() {
       formatoEstudos: "",
     },
     onSubmit: (values) => {
-      console.log(values);
       handleCreateRoadmap(values);
     },
   });
 
   const handleCreateRoadmap = async (values: typeof formik.initialValues) => {
-    const chatToken = localStorage.getItem("authTOken");
+    setIsLoading(true);
     const formData = new FormData();
 
     Object.keys(values).forEach((key) => {
@@ -56,17 +62,16 @@ export function Interview() {
     }
 
     await apiAuth
-      .post(`v1/chat?token=${chatToken}`, values)
+      .post(`v1/chat`, values, configAxiosRequest)
       .then(() => {
         navigate("/Roadmap");
-      })
-      .catch(() => {
+      }).catch(() => {
         toast({
           variant: "destructive",
           title: "Erro ao criar roadmap",
           description: "Espere um pouco e tente novamente",
         });
-      });
+      }).finally(() => setIsLoading(false));
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -91,6 +96,24 @@ export function Interview() {
   const handleAreaClick = () => {
     fileInputRef.current?.click();
   };
+
+
+  const handleIsAuthenticated = async () => {
+    await apiAuth
+      .get(`/v1`, configAxiosRequest)
+      .then((res) => {
+      })
+      .catch((error) => {
+        if (error.status === 401) {
+          localStorage.clear();
+          navigate(`/`);
+        }
+      });
+  };
+
+  useEffect(() => {
+    handleIsAuthenticated();
+  }, []);
 
   return (
     <div className="flex flex-1 h-full justify-center">
@@ -197,7 +220,7 @@ export function Interview() {
               />
             </div>
             <div className="flex justify-center items-center">
-              <Button type="submit">Gerar jornada</Button>
+              {isLoading ? <Loading /> : <Button type="submit">Gerar jornada</Button>}
             </div>
           </form>
         </div>

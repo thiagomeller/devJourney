@@ -1,13 +1,16 @@
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
+import Loading from "@/components/Loading/Loading";
 import { useToast } from "@/hooks/use-toast";
 import api from "@/service/api";
 import { useFormik } from "formik";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function SignUp() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -22,15 +25,24 @@ export function SignUp() {
   });
 
   const handleCreateUser = async (values: typeof formik.initialValues) => {
+    setIsLoading(true);
     await api
       .post("/v1/users", values)
-      .then(() => {
-        toast({
-          title: "Conta criada com sucesso!",
-          description: "Pode logar na sua conta",
-        });
-
-        navigate(-1);
+      .then((res: any) => {
+        if (!res.success) {
+          toast({
+            variant: "destructive",
+            title: "Erro ao criar conta",
+            description: res.message,
+          });
+        } else {
+          toast({
+            title: "Conta criada com sucesso!",
+            description: "Pode logar na sua conta",
+          });
+  
+          navigate(-1);
+        }
       })
       .catch(() => {
         toast({
@@ -38,7 +50,7 @@ export function SignUp() {
           title: "Erro ao criar conta",
           description: "Não foi possível criar a conta, tente novamente",
         });
-      });
+      }).finally(() => { setIsLoading(false) });
   };
 
   return (
@@ -92,7 +104,7 @@ export function SignUp() {
           />
 
           <div className="flex flex-col gap-4 w-full mt-6">
-            <Button type="submit">Cadastrar</Button>
+            {isLoading ? <Loading /> : <Button type="submit">Cadastrar</Button>}
             <Button variant="secondary" onClick={() => navigate(-1)}>
               Voltar
             </Button>

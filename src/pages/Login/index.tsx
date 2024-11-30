@@ -1,9 +1,10 @@
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
+import Loading from "@/components/Loading/Loading";
 import { Toaster } from "@/components/Toast/toaster";
 import { useToast } from "@/hooks/use-toast";
 import api from "@/service/api";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function Login() {
@@ -11,6 +12,7 @@ export function Login() {
   const { toast } = useToast();
   const user = useRef<string>("");
   const password = useRef<string>("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("authTOken");
@@ -20,30 +22,25 @@ export function Login() {
   }, [navigate]);
 
   const handleNavigate = async () => {
-    await api
-      .post(
-        "/v1/authenticate",
-        {},
-        {
+    setIsLoading(true);
+    await api.post("/v1/authenticate",{}, {
           headers: {
             Authorization:
               "Basic " + window.btoa(`${user.current}:${password.current}`),
           },
         }
-      )
-      .then((res) => {
+      ).then((res) => {
         if (res.data.token) {
           localStorage.setItem("authTOken", res.data.token);
           navigate("/Roadmap");
         }
-      })
-      .catch(() => {
+      }).catch(() => {
         toast({
           variant: "destructive",
           title: "Erro ao realizar login",
           description: "Login ou senha incorretos",
         });
-      });
+      }).finally(() => setIsLoading(false));
   };
 
   return (
@@ -68,7 +65,7 @@ export function Login() {
         />
 
         <div className="flex flex-col gap-4 mt-6 w-full">
-          <Button onClick={handleNavigate}>Entrar</Button>
+          {isLoading ? <Loading /> : <Button onClick={handleNavigate}>Entrar</Button>}
           <Button variant="secondary" onClick={() => navigate("/SignUp")}>
             Cadastrar-se
           </Button>
